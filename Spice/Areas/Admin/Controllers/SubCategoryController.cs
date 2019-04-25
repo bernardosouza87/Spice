@@ -26,7 +26,7 @@ namespace Spice.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var subCategories = await _db.SubCategory.Include(s=> s.Category).ToListAsync();
+            var subCategories = await _db.SubCategory.Include(s => s.Category).ToListAsync();
             return View(subCategories);
         }
 
@@ -80,8 +80,8 @@ namespace Spice.Areas.Admin.Controllers
             List<SubCategory> subCategories = new List<SubCategory>();
 
             subCategories = await (from subCategory in _db.SubCategory
-                             where subCategory.CategoryId == id
-                             select subCategory).ToListAsync();
+                                   where subCategory.CategoryId == id
+                                   select subCategory).ToListAsync();
             return Json(new SelectList(subCategories, "Id", "Name"));
 
         }
@@ -114,7 +114,7 @@ namespace Spice.Areas.Admin.Controllers
         //POST EDIT
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, SubCategoryAndCategoryViewModel model)
+        public async Task<IActionResult> Edit(int id,SubCategoryAndCategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -132,5 +132,14 @@ namespace Spice.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
+            SubCategoryAndCategoryViewModel modelVM = new SubCategoryAndCategoryViewModel()
+            {
+                CategoryList = await _db.Category.ToListAsync(),
+                SubCategory = model.SubCategory,
+                SubCategoryList = await _db.SubCategory.OrderBy(p => p.Name).Select(p => p.Name).ToListAsync(),
+                StatusMessage = StatusMessage
+            };
+            return View(modelVM);
         }
+    }
 }
