@@ -58,7 +58,7 @@ namespace Spice.Areas.Admin.Controllers
             _db.MenuItem.Add(MenuItemVM.MenuItem);
             await _db.SaveChangesAsync();
 
-            //Salvando imagens
+            //Salvando imagem
 
             string webRootPath = _hostingEnvironment.WebRootPath;
             var files = HttpContext.Request.Form.Files;
@@ -67,6 +67,7 @@ namespace Spice.Areas.Admin.Controllers
 
             if (files.Count > 0)
             {
+                //upload de arquivos
                 var uploads = Path.Combine(webRootPath, "images");
                 var extension = Path.GetExtension(files[0].FileName);
 
@@ -74,16 +75,18 @@ namespace Spice.Areas.Admin.Controllers
                 {
                     files[0].CopyTo(filesStream);
                 }
-                menuItemFromDb.Image = @"\images" + MenuItemVM.MenuItem.Id + extension;
+                menuItemFromDb.Image = @"\images\" + MenuItemVM.MenuItem.Id + extension;
             }
             else
             {
+                //sem arquivos
                 var uploads = Path.Combine(webRootPath, @"images\" + SD.DefaultFoodImage);
-                System.IO.File.Copy(uploads, webRootPath + @"\image\" + MenuItemVM.MenuItem.Id + ".png");
+                System.IO.File.Copy(uploads, webRootPath + @"\images\" + MenuItemVM.MenuItem.Id + ".png");
                 menuItemFromDb.Image = @"\images\" + MenuItemVM.MenuItem.Id + ".png";
             }
 
             await _db.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
     }

@@ -60,7 +60,7 @@
                 <label asp-for="MenuItem.SubCategoryId" class="col-form-label"></label>
             </div>
             <div class="col-5">
-                <select asp-for="@Model.MenuItem.SubCategoryId" name="SubCategoryId" id="SubCategoryId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>
+                <select asp-for="@Model.MenuItem.SubCategoryId" name="SubCategoryId" id="SubCategoryId" asp-items="@(new SelectList(string.Empty," Id","Name"))" class="form-control"></select>
             </div>
         </div> @*SubCategoria*@
         <div class="form-group row">
@@ -79,38 +79,38 @@
         </div>
     </div>
 </form>
-@section Scripts {
-<script>
-    tinymce.init({
-        selector: 'textarea',
-        plugins: "lists",
-        menubar: 'file edit format'
-    });
-</script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        getSubCategory();
-        $('#CategoryId').change(function () {
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: "lists",
+            menubar: 'file edit format'
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
             getSubCategory();
-        });
-    });
-
-    function getSubCategory() {
-        var url = '@Url.Content("~/")' + "Admin/SubCategory/GetSubCategory";
-        var ddlsource = '#CategoryId';
-        $.getJSON(url, { id: $(ddlsource).val() }, function (data) {
-            var items = '';
-            $('#SubCategoryId').empty();
-            $.each(data, function (i, subcategory) {
-                items += "<option value='" + subcategory + "'>" + subcategory.text + "</option>";
+            $('#CategoryId').change(function () {
+                getSubCategory();
             });
-
-            $('#SubCategoryId').html(items);
-
         });
-    }
-</script>
+        function getSubCategory() {
+            var url = '@Url.Content("~/")' + "Admin/SubCategory/GetSubCategory";
+            var ddlsoruce = '#CategoryId';
+            $.getJSON(url, { id: $(ddlsoruce).val() }, function (data) {
+                var items = '';
+                $('#SubCategoryId').empty();
+                $.each(data, function (i, subcategory) {
+                    items += "<option value='" + subcategory.value + "'>" + subcategory.text + "</option>";
+                });
+                $('#SubCategoryId').html(items);
+            })
+        }
+    </script>
+
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
