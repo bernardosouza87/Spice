@@ -15,11 +15,15 @@ namespace Spice.Models
         [Display(Name="Item de Menu")]
         [Required]
         public string Name { get; set; }
+
+        [Display(Name = "Descrição")]
         public string Description { get; set; }
 
+        [Display(Name = "Nível Pimenta")]
         public string Spicyness { get; set; }
-        public enum ESpicy {NA=0, NotSpicy=1,Spicy=2, VerySpicy=3}
+        public enum ESpicy {Sem=0, Fraco=1, Medio=2, Forte=3}
 
+        [Display(Name = "Imagem")]
         public string Image { get; set; }
 
         [Display(Name= "Categoria")]
