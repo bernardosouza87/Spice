@@ -12,6 +12,7 @@ namespace Spice.Models
         [Key]
         public int Id { get; set; }
 
+        [Display(Name="Item de Menu")]
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
@@ -21,13 +22,13 @@ namespace Spice.Models
 
         public string Image { get; set; }
 
-        [Display(Name="Category")]
+        [Display(Name= "Categoria")]
         public int CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
 
-        [Display(Name = "SubCategory")]
+        [Display(Name = "SubCategoria")]
         public int SubCategoryId { get; set; }
 
         [ForeignKey("SubCategoryId")]
