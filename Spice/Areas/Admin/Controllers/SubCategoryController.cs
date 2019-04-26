@@ -55,7 +55,7 @@ namespace Spice.Areas.Admin.Controllers
                 if (doesSubCategoryExists.Count() > 0)
                 {
                     //Error
-                    StatusMessage = "Error : SubCategoria ja cadastrada em " + doesSubCategoryExists.First().Category.Name + ". Tente outro nome.";
+                    StatusMessage = "Error : SubCategoria " + model.SubCategory.Name + " ja cadastrada em " + doesSubCategoryExists.First().Category.Name + ". Tente outro nome.";
                 }
                 else
                 {
@@ -123,11 +123,13 @@ namespace Spice.Areas.Admin.Controllers
                 if (doesSubCategoryExists.Count() > 0)
                 {
                     //Error
-                    StatusMessage = "Error : SubCategoria ja cadastrada em " + doesSubCategoryExists.First().Category.Name + ". Tente outro nome.";
+                    StatusMessage = "Error : SubCategoria " + model.SubCategory.Name + " ja cadastrada em " + doesSubCategoryExists.First().Category.Name + ". Tente outro nome.";
                 }
                 else
                 {
-                    _db.SubCategory.Add(model.SubCategory);
+                    var subCatFromDb = await _db.SubCategory.FindAsync(id);
+                    subCatFromDb.Name = model.SubCategory.Name;
+
                     await _db.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
