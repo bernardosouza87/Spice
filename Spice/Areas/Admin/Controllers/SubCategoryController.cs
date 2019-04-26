@@ -114,7 +114,7 @@ namespace Spice.Areas.Admin.Controllers
         //POST EDIT
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,SubCategoryAndCategoryViewModel model)
+        public async Task<IActionResult> Edit(int id, SubCategoryAndCategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
