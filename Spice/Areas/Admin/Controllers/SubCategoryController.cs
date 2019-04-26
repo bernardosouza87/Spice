@@ -114,7 +114,7 @@ namespace Spice.Areas.Admin.Controllers
         //POST EDIT
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, SubCategoryAndCategoryViewModel model)
+        public async Task<IActionResult> Edit(SubCategoryAndCategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -127,7 +127,7 @@ namespace Spice.Areas.Admin.Controllers
                 }
                 else
                 {
-                    var subCatFromDb = await _db.SubCategory.FindAsync(id);
+                    var subCatFromDb = await _db.SubCategory.FindAsync(model.SubCategory.Id);
                     subCatFromDb.Name = model.SubCategory.Name;
 
                     await _db.SaveChangesAsync();
@@ -142,6 +142,28 @@ namespace Spice.Areas.Admin.Controllers
                 StatusMessage = StatusMessage
             };
             return View(modelVM);
+        }
+
+        //GET DETAILS
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var subCategory = await _db.SubCategory.SingleOrDefaultAsync(m => m.Id == id);
+            if (subCategory == null)
+            {
+                return NotFound();
+            }
+            SubCategoryAndCategoryViewModel model = new SubCategoryAndCategoryViewModel()
+            {
+                CategoryList = await _db.Category.ToListAsync(),
+                SubCategory = subCategory,
+                SubCategoryList = await _db.SubCategory.OrderBy(p => p.Name).Select(p => p.Name).Distinct().ToListAsync()
+            };
+
+            return View(model);
         }
     }
 }
