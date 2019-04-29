@@ -213,6 +213,15 @@ namespace Spice.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var menuItem = await _db.MenuItem.FindAsync(id);
+            string webRootPath = _hostingEnvironment.WebRootPath;
+
+            var imagePath = Path.Combine(webRootPath, menuItem.Image.TrimStart('\\'));
+
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
+
             _db.MenuItem.Remove(menuItem);
             await _db.SaveChangesAsync();
 
