@@ -5,7 +5,7 @@
 }
 
 <br /><br />
-<h2 class="text-info" >Criar Categoria</h2>
+<h2 class="text-info">Criar Categoria</h2>
 <br />
 <form method="post" asp-action="Create">
     <div class="border backgroundWhite">
@@ -26,3 +26,7 @@
         </div>
     </div>
 </form>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
