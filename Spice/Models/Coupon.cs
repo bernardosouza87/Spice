@@ -30,10 +30,10 @@ namespace Spice.Models
         public double MinimumAmount { get; set; }
 
         [Display(Name = "Imagem")]
-        [Required]
+        
         public byte[] Picture { get; set; }
 
         [Display(Name = "Ativo")]
-        public bool isActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

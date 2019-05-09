@@ -84,14 +84,11 @@ namespace Spice.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            var coupon = await _db.Coupon.FirstOrDefaultAsync(m => m.Id == id);
-
+            var coupon = await _db.Coupon.SingleOrDefaultAsync(m => m.Id == id);
             if (coupon == null)
             {
                 return NotFound();
             }
-
             return View(coupon);
         }
 
@@ -126,12 +123,37 @@ namespace Spice.Areas.Admin.Controllers
                 couponFromDb.Name = coupons.Name;
                 couponFromDb.Discount = coupons.Discount;
                 couponFromDb.CouponType = coupons.CouponType;
-                couponFromDb.isActive = coupons.isActive;
+                couponFromDb.IsActive = coupons.IsActive;
 
                 await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(coupons);
+        }
+
+        //GET Delete Coupon
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var coupon = await _db.Coupon.SingleOrDefaultAsync(m => m.Id == id);
+            if (coupon == null)
+            {
+                return NotFound();
+            }
+            return View(coupon);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var coupons = await _db.Coupon.SingleOrDefaultAsync(m => m.Id == id);
+            _db.Coupon.Remove(coupons);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
